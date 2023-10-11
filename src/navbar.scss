@@ -1,6 +1,6 @@
 header{
     display: flex;
-  
+  margin-bottom: 3rem;
     padding: 0rem 3rem;
     gap: 20rem;
     background: #FFF;
@@ -26,13 +26,20 @@ box-shadow: 3px 0px 20px 0px rgba(0, 0, 0, 0.1);
     input{
         border-top-left-radius: 0.5rem;
         border-bottom-left-radius: 0.5rem;
-border: 1px solid #213F7D;
-opacity: 0.2;
+border: 1px solid rgb(33, 63, 125,0.2);
+border-top-right-radius: 0;
+border-bottom-right-radius: 0;
 background: #FFF;
 height: 2.5rem;
 padding: 0.15rem 1rem;
 width: 20rem;
 font-size: 1.3rem;
+color: #062155;
+    }
+    input:focus{
+        outline-color:rgba(57, 205, 204, 1);
+        border-top-right-radius: 0;
+border-bottom-right-radius: 0;
     }
     .svg-con{
         background-color: rgba(57, 205, 204, 1);
