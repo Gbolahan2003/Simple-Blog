@@ -15,7 +15,8 @@ export const blogReducer =(state = initialState, action:BlogACtions):BlogState=>
             case 'RESET_BLOG':
                 return { ...state, blog: [] }
                 case 'DELET-BLOG':
-                    return state
+                    const UpdateBlog =state.blog.filter((e)=> e.id !== action.id)
+                    return {...state, blog:UpdateBlog}
                 default:return state
     }
 }

@@ -5,12 +5,18 @@ import {useSelector } from 'react-redux/es/hooks/useSelector'
 import Blog from './Bolg'
 import {NavLink}  from 'react-router-dom'
 import { BlogItem } from '../Redux/Action/Action'
+import { DeleteBlog } from '../Redux/Action/Action'
 import {motion} from 'framer-motion'
+import { useDispatch } from 'react-redux'
 const BlogContainer = () => {
     
-   
-    const blog = useSelector((state: any) => state.blog);
-   
+    const dispatch=useDispatch()
+  const handleDelete=(idblog:number|string)=>{
+    dispatch(DeleteBlog(idblog))
+  }
+
+  const blog = useSelector((state: any) => state.blog);
+  
   return (
     <motion.div
     className="box"
@@ -36,7 +42,7 @@ const BlogContainer = () => {
         <div className="blog-grid">
           {blog.map((item:BlogItem)=> (
             
-            <Blog key={item.id} title={item.title} content={item.content.slice(0, 150)} createdAt={item.CreatedAt} />))}
+            <Blog deleteBlog={()=>handleDelete(item.id)} id={item.id} key={item.id} title={item.title} content={item.content.slice(0, 150)} createdAt={item.CreatedAt} />))}
         </div>
         <div className="pagination">
 

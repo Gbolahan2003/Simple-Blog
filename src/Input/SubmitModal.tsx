@@ -2,12 +2,34 @@ import React from 'react'
 import './input.scss'
 import {BsCheckCircle} from 'react-icons/bs'
 import {NavLink} from 'react-router-dom'
+import { blogDetails } from '../BlogPage/BlogPage'
+import { BlogItem } from '../Redux/Action/Action'
+import { useParams } from 'react-router'
 
-interface modalProps{
+
+interface modalProps extends blogDetails{
     closeModal: ()=> void,
     
+    
 }
-const SubmitModal:React.FC<modalProps> = ({closeModal}) => {
+const SubmitModal:React.FC<modalProps> = ({closeModal, blogDetail}) => {
+  const { id } = useParams<{ id: string | undefined }>();
+  const [contents, setContent] = React.useState<BlogItem | null>(null);
+
+  React.useEffect(() => {
+    if (id === undefined) {
+      return;
+    }
+
+    const blogContent = blogDetail.find((blog) => blog.id === parseInt(id, 10));
+
+    if (blogContent) {
+      setContent(blogContent);
+    } else {
+      setContent(null);
+    }
+  }, [id, blogDetail]);
+
   return (
     <>
     <div className="submit-modal-container">
@@ -26,7 +48,8 @@ const SubmitModal:React.FC<modalProps> = ({closeModal}) => {
         <p>Your Blog has been posted successfully </p>
         <div className="modal-button-container">
             <NavLink to={'/'} className='home'>Back to home page</NavLink>
-            <button className='view'>View Blog</button>
+            
+         
         </div>
     </div> 
     </>

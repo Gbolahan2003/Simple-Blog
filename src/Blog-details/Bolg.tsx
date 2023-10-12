@@ -2,14 +2,25 @@ import React from 'react'
 import './blog.scss'
 import {AiOutlineArrowRight} from 'react-icons/ai'
 import {BsTrash} from 'react-icons/bs'
+import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux/es/hooks/useSelector'
+import { BlogItem, DeleteBlog } from '../Redux/Action/Action'
+import { useDispatch } from 'react-redux'
 interface blogparams{
+  id:string|number,
   key:string|number,
   title:string,
   content:string,
   createdAt:string,
-  updatedAt?:string
+  updatedAt?:string,
+  deleteBlog:()=>void
 }
-const Blog:React.FC<blogparams> =({key,title, content, createdAt, updatedAt})=>{
+const Blog:React.FC<blogparams> =({key,title, content, createdAt, updatedAt, id,deleteBlog})=>{
+  const blog:BlogItem[] = useSelector((state: any) => state.blog);
+  console.log(blog);
+  
+ 
+  
   return(
       <>
   <div key={key} className="blog-container">
@@ -19,10 +30,10 @@ const Blog:React.FC<blogparams> =({key,title, content, createdAt, updatedAt})=>{
   </article>
   <div className="reading-container">
     <div className="readmore">
-      <div className="read">Read More</div>
+      <NavLink to={`create-blog/blog/${id}`} className="read">Read More</NavLink>
       <AiOutlineArrowRight/>
     </div>
-    <div className="options">
+    <div onClick={deleteBlog} className="options" >
 <BsTrash/>
     </div>
   </div>

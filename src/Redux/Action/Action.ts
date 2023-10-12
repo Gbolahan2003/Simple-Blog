@@ -19,7 +19,7 @@ interface  ResetBlogAction extends Action <typeof RESET_BLOG>{
   
 }
 interface DeleteBlogAction extends Action<typeof DELETE_BLOG >{
-    payload:BlogItem
+    id:number|string
 }
 
 export type BlogACtions = AddBlogAction| ResetBlogAction|DeleteBlogAction
@@ -32,8 +32,8 @@ export const ResetBlog = ():BlogACtions=>({
     type:RESET_BLOG
     
 })
- export const DeleteBlog =(Blog:BlogItem):BlogACtions=>({
+ export const DeleteBlog =(id:number|string):BlogACtions=>({
     type:DELETE_BLOG,
-    payload:Blog
+    id
 
  })

@@ -3,26 +3,26 @@ import Navbar from '../components/Navbar'
 
 import './input.scss'
 import {addBlog, ResetBlog} from '../Redux/Action/Action'
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import SubmitModal from './SubmitModal'
 import {NavLink} from 'react-router-dom'
 import {motion} from 'framer-motion'
 
 const InputContainer = () => {
-  
   const [id, setId] = React.useState<number>(0)
   const [content, setContent ]= React.useState('')
   const [title, setTitle] =React.useState('')
   const [modalstate, setModalState] =React.useState<boolean>(false)
   const [blink, setBlink] = React.useState(false)
   const dispatch = useDispatch()
- 
-
-const handlepost =()=>{
-  const date = new Date()
+  
+  const blog = useSelector((state: any) => state.blog);
+  const handlepost =()=>{
+    
+    const date = new Date()
   const createdAt =()=>{
     if(date.getHours() >= 12){
-return `${date.getDay()}/${date.getMonth()}/ ${date.getFullYear()}-${date.getHours()}:${date.getMinutes()} PM`
+      return `${date.getDay()}/${date.getMonth()}/ ${date.getFullYear()}-${date.getHours()}:${date.getMinutes()} PM`
     }
     else return `${date.getDate()}/${date.getMonth()}/ ${date.getFullYear()}-${date.getHours()}:${date.getMinutes()} AM`
   }
@@ -57,7 +57,7 @@ dispatch(ResetBlog())
   >
     <>
 
-      <div className={` ${modalstate?'modal':'modal-open'}`}> <SubmitModal  closeModal={()=>setModalState(false)}/> </div>
+    <div className={` ${modalstate?'modal':'modal-open'}`}> <SubmitModal blogDetail={blog.id}  closeModal={()=>setModalState(false)}/> </div>
       <Navbar/>
     
     <div className="input-container">
