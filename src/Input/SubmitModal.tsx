@@ -7,28 +7,12 @@ import { BlogItem } from '../Redux/Action/Action'
 import { useParams } from 'react-router'
 
 
-interface modalProps extends blogDetails{
+interface modalProps {
     closeModal: ()=> void,
-    
+    text:string
     
 }
-const SubmitModal:React.FC<modalProps> = ({closeModal, blogDetail}) => {
-  const { id } = useParams<{ id: string | undefined }>();
-  const [contents, setContent] = React.useState<BlogItem | null>(null);
-
-  React.useEffect(() => {
-    if (id === undefined) {
-      return;
-    }
-
-    const blogContent = blogDetail.find((blog) => blog.id === parseInt(id, 10));
-
-    if (blogContent) {
-      setContent(blogContent);
-    } else {
-      setContent(null);
-    }
-  }, [id, blogDetail]);
+const SubmitModal:React.FC<modalProps> = ({closeModal,text}) => {
 
   return (
     <>
@@ -45,7 +29,7 @@ const SubmitModal:React.FC<modalProps> = ({closeModal, blogDetail}) => {
                 <BsCheckCircle/>
             </div>
         </div>
-        <p>Your Blog has been posted successfully </p>
+        <p>{text} </p>
         <div className="modal-button-container">
             <NavLink to={'/'} className='home'>Back to home page</NavLink>
             

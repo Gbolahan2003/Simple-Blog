@@ -39,7 +39,7 @@ const Blog:React.FC<blogparams> =({key,title, content, createdAt, updatedAt, id,
   </div>
   <div className="time-con">
       <div className=" date created-date"> Created on - {createdAt}</div>
-      <div className=" date updated-time"> {updatedAt}</div>
+      <NavLink to={`update-blog/${id}`} className=" date updated-time">Update blog</NavLink>
   </div>
   </div>
   </>

@@ -17,6 +17,16 @@ export const blogReducer =(state = initialState, action:BlogACtions):BlogState=>
                 case 'DELET-BLOG':
                     const UpdateBlog =state.blog.filter((e)=> e.id !== action.id)
                     return {...state, blog:UpdateBlog}
+                    case 'UPDATE_BLOG':
+                        return {
+                            ...state, blog: state.blog.map((blog) =>
+                            blog.id === action.id
+                              ? { ...blog, title: action.title, content: action.content }
+                              : blog
+                          ),
+                        }
+                        
                 default:return state
+
     }
 }

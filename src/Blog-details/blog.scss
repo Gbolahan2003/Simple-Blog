@@ -117,4 +117,10 @@ line-height: 1.25rem; /* 142.857% */
         gap: 2rem;
         row-gap: 2rem;
     }
+    .pagination{
+        text-align: end;
+        display: flex;
+        justify-content: end;
+        margin-top: 3rem;
+    }
 }

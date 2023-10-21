@@ -3,7 +3,8 @@ import './bloggPage.scss'
 import {AiOutlineArrowLeft} from 'react-icons/ai'
 import { BsTrash } from 'react-icons/bs'
 import { useParams } from 'react-router'
-import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { DeleteBlog } from '../Redux/Action/Action'
 import { BlogItem } from '../Redux/Action/Action'
 import {motion} from 'framer-motion'
 import { NavLink } from 'react-router-dom'
@@ -31,6 +32,10 @@ const BlogPage:React.FC<blogDetails> = ({blogDetail}) => {
       }
     }, [id, blogDetail]);
   
+    const dispatch=useDispatch()
+    const handleDelete=(idblog:number|string)=>{
+      dispatch(DeleteBlog(idblog))
+    }
 
   return (
     <motion.div
@@ -60,7 +65,7 @@ const BlogPage:React.FC<blogDetails> = ({blogDetail}) => {
    </svg></div>
          <div className="read">Back</div>
        </NavLink>
-       <div className="options">
+       <div onClick={()=>handleDelete(contents.id)} className="options">
    <BsTrash/>
        </div>
      </div>

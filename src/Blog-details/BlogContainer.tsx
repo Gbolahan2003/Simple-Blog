@@ -1,5 +1,6 @@
 import React from 'react'
 import './blog.scss'
+
 import Navbar from '../components/Navbar'
 import {useSelector } from 'react-redux/es/hooks/useSelector'
 import Blog from './Bolg'
@@ -8,15 +9,46 @@ import { BlogItem } from '../Redux/Action/Action'
 import { DeleteBlog } from '../Redux/Action/Action'
 import {motion} from 'framer-motion'
 import { useDispatch } from 'react-redux'
+import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 const BlogContainer = () => {
-    
-    const dispatch=useDispatch()
+  const [page, setPage] = React.useState(1);
+const [list, setList] = React.useState<any[]>([])
+  const dispatch=useDispatch()
+    const url = 'https://dummyapi.io/data/v1/post?limit=10'
+    React.useEffect(()=> {
+    const handlefetch = async()=>{
+    try{
+      const response = await fetch(url)
+      if(response.ok){
+        const data = await response.json()
+        console.log(data)
+        
+      }else {
+        console.error('Failed to fetch data:', response.status, response.statusText);
+      }
+    }catch(err){
+      console.log(`there is an error: ${err}`);
+      
+    }
+
+  }
+  handlefetch()
+  },[])
+
   const handleDelete=(idblog:number|string)=>{
     dispatch(DeleteBlog(idblog))
   }
 
   const blog = useSelector((state: any) => state.blog);
   
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+      setPage(value);
+  
+
+  }
   return (
     <motion.div
     className="box"
@@ -45,7 +77,10 @@ const BlogContainer = () => {
             <Blog deleteBlog={()=>handleDelete(item.id)} id={item.id} key={item.id} title={item.title} content={item.content.slice(0, 150)} createdAt={item.CreatedAt} />))}
         </div>
         <div className="pagination">
-
+        <Stack spacing={2}>
+        <Typography>Page: {page}</Typography>
+        <Pagination count={10} page={page} onChange={handleChange} />
+      </Stack>
         </div>
         </section>
     </div>
@@ -55,3 +90,5 @@ const BlogContainer = () => {
 }
 
 export default BlogContainer
+
+

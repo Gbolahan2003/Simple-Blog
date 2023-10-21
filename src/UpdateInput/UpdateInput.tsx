@@ -1,35 +1,51 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 
-import './input.scss'
+import '../Input/input.scss'
 import {addBlog, ResetBlog} from '../Redux/Action/Action'
+import { BlogItem } from '../Redux/Action/Action'
 import { useDispatch, useSelector} from 'react-redux'
-import SubmitModal from './SubmitModal'
+import SubmitModal from '../Input/SubmitModal'
 import {NavLink} from 'react-router-dom'
 import {motion} from 'framer-motion'
 
-const InputContainer = () => {
+import { Updatelog } from '../Redux/Action/Action'
+
+const UpdateInputContainer = () => {
   const [id, setId] = React.useState<number>(0)
   const [content, setContent ]= React.useState('')
   const [title, setTitle] =React.useState('')
   const [modalstate, setModalState] =React.useState<boolean>(false)
   const [blink, setBlink] = React.useState(false)
+  
   const dispatch = useDispatch()
   
+  const blogs = useSelector((state: any) => state.blog);
 
-  const handlepost =()=>{
-    
+  // Find the selected blog based on the 'id'
+  const selectedBlog = id !== null ? blogs.find((blog: BlogItem) => blog.id === id) : null;
+
+  // Update the 'title' and 'content' when the selected blog changes
+  React.useEffect(() => {
+    if (selectedBlog) {
+      setTitle(selectedBlog.title);
+      setContent(selectedBlog.content);
+    }
+  }, [selectedBlog]);
+
+
+  const handleUpdate =()=>{
     const date = new Date()
-  const createdAt =()=>{
+  const UpdatedAt =()=>{
     if(date.getHours() >= 12){
-      return `${date.getDate()}/${date.getMonth()+1}/ ${date.getFullYear()}-${date.getHours()}:${date.getMinutes()} PM`
+      return `${date.getDay()}/${date.getMonth()}/ ${date.getFullYear()}-${date.getHours()}:${date.getMinutes()} PM`
     }
     else return `${date.getDate()}/${date.getMonth()}/ ${date.getFullYear()}-${date.getHours()}:${date.getMinutes()} AM`
   }
   
   if (content.trim() !== '') {
     if(content!=='' && title!==''){
-      dispatch(addBlog({ id: Date.now(), content: content, title:title, CreatedAt:createdAt() }));
+          dispatch(Updatelog(id, title, content));
       setContent('');
       setTitle('')
       setId(id + 1); // Increment id
@@ -39,6 +55,7 @@ const InputContainer = () => {
   if(content=== '' && title === '' || content=== '' || title===''){
     setBlink(true)
   }
+  
 }
 const handleReset =()=>{
 dispatch(ResetBlog())
@@ -57,7 +74,7 @@ dispatch(ResetBlog())
   >
     <>
 
-    <div className={` ${modalstate?'modal':'modal-open'}`}> <SubmitModal text='Your Blog has been posted successfully'   closeModal={()=>setModalState(false)}/> </div>
+    <div className={` ${modalstate?'modal':'modal-open'}`}> <SubmitModal text='Your Blog has been successfully updated'   closeModal={()=>setModalState(false)}/> </div>
       <Navbar/>
     
     <div className="input-container">
@@ -74,20 +91,20 @@ dispatch(ResetBlog())
     <div  className="input-main-container">
         <div className="input-con">
           <label htmlFor="Title" >Title</label>
-          <input spellCheck className={`${blink===true?'blink':''}`} required value={title} onChange={e => {
+          <input className={`${blink===true?'blink':''}`} required value={title} onChange={e => {
             setBlink(false)
             setTitle(e.target.value)}} type="text" placeholder={`${blink?'Please enter a title':'title'}`}   />
         </div>
         <div className="input-con">
           <label htmlFor="Title">content</label>
-          <textarea spellCheck className={`${blink===true?'blink':''}`} placeholder={`${blink===true?'Please enter content':'content'}`}    required  value={content} onChange={e => { 
+          <textarea className={`${blink===true?'blink':''}`} placeholder={`${blink===true?'Please enter content':'content'}`}    required  value={content} onChange={e => { 
             setBlink(false)
             setContent(e.target.value)}} ></textarea>
         </div>
         <div className="button-con">
         <div className="button-container-blog">
           <button className='reset' onClick={handleReset}>Reset</button>
-          <button onClick={handlepost}>post</button>
+          <button onClick={handleUpdate}>Update</button>
         </div>
         </div>
       </div>
@@ -105,4 +122,4 @@ dispatch(ResetBlog())
   )
 }
 
-export default InputContainer
+export default UpdateInputContainer
