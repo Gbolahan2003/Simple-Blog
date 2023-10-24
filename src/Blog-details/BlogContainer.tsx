@@ -14,7 +14,7 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 const BlogContainer = () => {
   const [page, setPage] = React.useState(1);
-const [list, setList] = React.useState<any[]>([])
+
   const dispatch=useDispatch()
     const url = 'https://dummyapi.io/data/v1/post?limit=10'
     React.useEffect(()=> {
